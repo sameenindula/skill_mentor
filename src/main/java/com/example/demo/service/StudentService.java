@@ -13,8 +13,8 @@ public interface StudentService {
      * @return
      */
     StudentDTO createStudent(StudentDTO studentDTO);
-    List<StudentDTO> getStudent(String name);
-    StudentDTO findById(Integer id);
-    StudentDTO updateStudent(Integer id,StudentDTO studentDTO);
-    StudentDTO deleteStudent(Integer id);
+    List<StudentDTO> getStudent();
+    // StudentDTO findById(Integer id);
+    // StudentDTO updateStudent(Integer id,StudentDTO studentDTO);
+    // StudentDTO deleteStudent(Integer id);
 }

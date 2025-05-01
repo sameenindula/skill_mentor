@@ -14,6 +14,8 @@ public class StudentDTO {
     private String city;
 
     // Default Constructor
+    public StudentDTO() {
+    }
 
     // Parameterized Constructor
     public StudentDTO(Integer id, String name, String email, String phone, String address, String city) {

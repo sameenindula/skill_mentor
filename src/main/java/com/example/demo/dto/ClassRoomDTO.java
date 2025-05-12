@@ -1,24 +1,16 @@
 package com.example.demo.dto;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
-
+@NoArgsConstructor
 public class ClassRoomDTO {
-    Integer classRoomId;
-    String title;
-    Double sessionFee;
-    Integer enrollStudentCount;
-
-    public ClassRoomDTO(){}
-
-    public ClassRoomDTO(Integer classRoomId, String title, Double sessionFee, Integer enrollStudentCount) {
-        this.classRoomId = classRoomId;
-        this.title = title;
-        this.sessionFee = sessionFee;
-        this.enrollStudentCount = enrollStudentCount;
-    }
-
+    private Integer classRoomId;
+    private String title;
+    private Double sessionFee;
+    private Integer enrollStudentCount;
+    private MentorDTO mentor;
 }

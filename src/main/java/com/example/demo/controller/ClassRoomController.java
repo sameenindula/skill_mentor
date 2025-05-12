@@ -54,7 +54,4 @@ public class ClassRoomController {
         ClassRoomDTO deletedClass = classRoomService.deleteClass(id);
         return new ResponseEntity<>(deletedClass, HttpStatus.OK);
     }
-    
-    
-    
 }

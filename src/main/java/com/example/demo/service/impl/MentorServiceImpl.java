@@ -1,13 +1,17 @@
 package com.example.demo.service.impl;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.dto.MentorDTO;
+import com.example.demo.entity.ClassRoomEntity;
 import com.example.demo.entity.MentorEntity;
 import com.example.demo.mapper.MentorDTOMapper;
+import com.example.demo.repository.ClassRoomRepository;
 import com.example.demo.repository.MentorRepository;
 import com.example.demo.service.MentorService;
 
@@ -17,10 +21,21 @@ public class MentorServiceImpl implements MentorService {
     @Autowired
     private MentorRepository mentorRepository;
 
+    @Autowired
+    private ClassRoomRepository classRoomRepository;
+
     @Override
     public MentorDTO createMentor(MentorDTO mentorDTO) {
         MentorEntity mentorEntity = MentorDTOMapper.map(mentorDTO);
         MentorEntity savedEntity = mentorRepository.save(mentorEntity);
+        if (!Objects.isNull(mentorDTO.getClassRoomId())){
+            Optional<ClassRoomEntity> optionalClassRoomEntity = classRoomRepository.findById(mentorDTO.getClassRoomId());
+            if (optionalClassRoomEntity.isPresent()){
+                ClassRoomEntity classRoomEntity = optionalClassRoomEntity.get();
+                classRoomEntity.setMentor(savedEntity);
+                classRoomRepository.save(classRoomEntity);
+            }
+        }
         return MentorDTOMapper.map(savedEntity);
     }
 

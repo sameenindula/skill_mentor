@@ -13,7 +13,7 @@ public class ClassRoomDTOMapper {
         classroomDTO.setTitle(classroomEntity.getTitle());
         classroomDTO.setSessionFee(classroomEntity.getSessionFee());
         classroomDTO.setEnrollStudentCount(classroomEntity.getEnrollStudentCount());
-        classroomDTO.setMentor(MentorDTOMapper.map(classroomEntity.getMentor()));
+        // classroomDTO.setMentor(MentorDTOMapper.map(classroomEntity.getMentor()));
         return classroomDTO;
     }
 
@@ -26,7 +26,7 @@ public class ClassRoomDTOMapper {
         classroomEntity.setTitle(classroomDTO.getTitle());
         classroomEntity.setSessionFee(classroomDTO.getSessionFee());
         classroomEntity.setEnrollStudentCount(classroomDTO.getEnrollStudentCount());
-        classroomEntity.setMentor(MentorDTOMapper.map(classroomDTO.getMentor()));
+        //classroomEntity.setMentor(MentorDTOMapper.map(classroomDTO.getMentor()));
         return classroomEntity;
     }
 }

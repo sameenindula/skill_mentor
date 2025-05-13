@@ -1,10 +1,13 @@
 package com.example.demo.entity;
 
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
@@ -44,10 +47,13 @@ public class MentorEntity {
     @OneToOne(mappedBy = "mentor")
     private ClassRoomEntity classroom;
 
+    @OneToMany(mappedBy = "mentor")
+    private  List<SessionEntity> sessions;
+
  
 
     public MentorEntity(Integer mentorId, String firstName, String lastName, String address, String email, String title,
-            String profession, String subject, String qualification, ClassRoomEntity classroom) {
+            String profession, String subject, String qualification, ClassRoomEntity classroom, List<SessionEntity> sessions) {
         this.mentorId = mentorId;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -145,5 +151,11 @@ public class MentorEntity {
         this.classroom = classroom;
     }
 
+    public List<SessionEntity> getSessions() {
+        return sessions;
+    }
+    public void setSessions(List<SessionEntity> sessions) {
+        this.sessions = sessions;
+    }
 
 }

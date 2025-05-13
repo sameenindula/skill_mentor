@@ -5,13 +5,16 @@ public class SessionDTO {
     private String sessionName;
     private Integer startDate;
     private Integer endDate;
+    private MentorDTO mentor;
+    private StudentDTO student;
+    private ClassRoomDTO classRoom;
 
     // No-argument constructor
     public SessionDTO() {
     }
 
     // Constructor with arguments
-    public SessionDTO(Integer sessionId, String sessionName, Integer startDate, Integer endDate) {
+    public SessionDTO(Integer sessionId, String sessionName, Integer startDate, Integer endDate, MentorDTO mentor, StudentDTO student, ClassRoomDTO classRoom) {
         this.sessionId = sessionId;
         this.sessionName = sessionName;
         this.startDate = startDate;
@@ -49,6 +52,24 @@ public class SessionDTO {
 
     public void setEndDate(Integer endDate) {
         this.endDate = endDate;
+    }
+    public MentorDTO getMentor() {
+        return mentor;
+    }
+    public void setMentor(MentorDTO mentor) {
+        this.mentor = mentor;
+    }
+    public StudentDTO getStudent() {
+        return student;
+    }
+    public void setStudent(StudentDTO student) {
+        this.student = student;
+    }
+    public ClassRoomDTO getClassRoom() {
+        return classRoom;
+    }
+    public void setClassRoom(ClassRoomDTO classRoom) {
+        this.classRoom = classRoom;
     }
 }
 

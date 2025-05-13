@@ -1,10 +1,13 @@
 package com.example.demo.entity;
 
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -29,12 +32,16 @@ public class StudentEntity {
     @Column(name = "city")
     private String city;
 
+    @OneToMany(mappedBy = "student")
+    private List<SessionEntity> sessions;
+
     // Default Constructor
     public StudentEntity() {
     }
 
     // Parameterized Constructor
-    public StudentEntity(Integer id, String name, String email, String phone, String address, String city) {
+    public StudentEntity(Integer id, String name, String email, String phone, String address, String city,
+            List<SessionEntity> sessions) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -89,6 +96,12 @@ public class StudentEntity {
 
     public void setCity(String city) {
         this.city = city;
+    }
+    public List<SessionEntity> getSessions() {
+        return sessions;
+    }
+    public void setSessions(List<SessionEntity> sessions) {
+        this.sessions = sessions;
     }
 
 

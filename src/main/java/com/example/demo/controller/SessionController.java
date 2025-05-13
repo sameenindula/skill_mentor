@@ -35,6 +35,7 @@ public class SessionController {
 
     @PostMapping()
     public ResponseEntity<SessionDTO> createSession(@RequestBody SessionDTO sessionDTO) {
+
         SessionDTO sessionDTOs = sessionService.createSession(sessionDTO);
         return new ResponseEntity<>(sessionDTOs, HttpStatus.OK);
     }

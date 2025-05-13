@@ -1,5 +1,7 @@
 package com.example.demo.entity;
 
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -7,6 +9,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
@@ -32,19 +35,13 @@ public class ClassRoomEntity {
     @JoinColumn(name = "mentor_id")
     private MentorEntity mentor;
 
-    public MentorEntity getMentor() {
-        return mentor;
-    }
-    public void setMentor(MentorEntity mentor) {
-        this.mentor = mentor;
-    }
-
-
+    @OneToMany(mappedBy = "classroom")
+    private List<SessionEntity> sessions;
 
 
     public ClassRoomEntity() {
     }
-    public ClassRoomEntity(Integer classRoomId, String title, Double sessionFee, Integer enrollStudentCount, MentorEntity mentor) {
+    public ClassRoomEntity(Integer classRoomId, String title, Double sessionFee, Integer enrollStudentCount, MentorEntity mentor, List<SessionEntity> sessions) {
         this.classRoomId = classRoomId;
         this.title = title;
         this.sessionFee = sessionFee;
@@ -83,7 +80,18 @@ public class ClassRoomEntity {
     public void setEnrollStudentCount(Integer enrollStudentCount) {
         this.enrollStudentCount = enrollStudentCount;
     }
-
+    public MentorEntity getMentor() {
+        return mentor;
+    }
+    public void setMentor(MentorEntity mentor) {
+        this.mentor = mentor;
+    }
+    public List<SessionEntity> getSessions() {
+        return sessions;
+    }
+    public void setSessions(List<SessionEntity> sessions) {
+        this.sessions = sessions;
+    }
 
 
     

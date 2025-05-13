@@ -1,10 +1,6 @@
 package com.example.demo.dto;
 
-import lombok.Getter;
-import lombok.Setter;
 
-@Getter
-@Setter
 public class MentorDTO {
     Integer mentorId;
     String firstName;
@@ -34,6 +30,87 @@ public class MentorDTO {
     public MentorDTO() {
         //TODO Auto-generated constructor stub
     }
+
+    public Integer getMentorId() {
+        return mentorId;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getProfession() {
+        return profession;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public String getQualification() {
+        return qualification;
+    }
+
+    public Integer getClassRoomId() {
+        return classRoomId;
+    }
+
+    public void setMentorId(Integer mentorId) {
+        this.mentorId = mentorId;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setProfession(String profession) {
+        this.profession = profession;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
+
+    public void setQualification(String qualification) {
+        this.qualification = qualification;
+    }
+
+    public void setClassRoomId(Integer classRoomId) {
+        this.classRoomId = classRoomId;
+    }
+    
 
 
 

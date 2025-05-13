@@ -7,15 +7,11 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+
 
 @Entity
 @Table(name = "mentor")
-@Getter
-@Setter
-@NoArgsConstructor
+
 public class MentorEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,4 +43,107 @@ public class MentorEntity {
 
     @OneToOne(mappedBy = "mentor")
     private ClassRoomEntity classroom;
+
+ 
+
+    public MentorEntity(Integer mentorId, String firstName, String lastName, String address, String email, String title,
+            String profession, String subject, String qualification, ClassRoomEntity classroom) {
+        this.mentorId = mentorId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.address = address;
+        this.email = email;
+        this.title = title;
+        this.profession = profession;
+        this.subject = subject;
+        this.qualification = qualification;
+        this.classroom = classroom;
+    }  
+
+    public MentorEntity() {
+    }
+
+    
+
+    public Integer getMentorId() {
+        return mentorId;
+    }
+
+    public void setMentorId(Integer mentorId) {
+        this.mentorId = mentorId;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getProfession() {
+        return profession;
+    }
+
+    public void setProfession(String profession) {
+        this.profession = profession;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
+
+    public String getQualification() {
+        return qualification;
+    }
+
+    public void setQualification(String qualification) {
+        this.qualification = qualification;
+    }
+
+    public ClassRoomEntity getClassroom() {
+        return classroom;
+    }
+
+    public void setClassroom(ClassRoomEntity classroom) {
+        this.classroom = classroom;
+    }
+
+
 }

@@ -1,12 +1,23 @@
 package com.example.demo.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 
-
+import jakarta.validation.constraints.NotBlank;
+    
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ClassRoomDTO {
     private Integer classRoomId;
+
+    @NotBlank(message = "Title is mandatory")
     private String title;
+
+    @NotBlank(message="SessionFee is mandatory")
     private Double sessionFee;
+
+    @NotBlank(message="EnrollStudentCount is mandatory")
     private Integer enrollStudentCount;
+
+    @NotBlank(message="Mentor is mandatory")
     private MentorDTO mentor;
 
 

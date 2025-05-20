@@ -1,16 +1,37 @@
 package com.example.demo.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 
+import jakarta.validation.constraints.NotBlank;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class MentorDTO {
     Integer mentorId;
+    @NotBlank(message = "First name is mandatory")
     String firstName;
+
+    @NotBlank(message = "Last name is mandatory")
     String lastName;
+
+    @NotBlank(message = "Address is mandatory")
     String address;
+
+    @NotBlank(message = "Email is mandatory")
     String email;
+
+    @NotBlank(message = "Title is mandatory")
     String title;
+
+    @NotBlank(message = "Profession is mandatory")
     String profession;
+    
+    @NotBlank(message = "Subject is mandatory")
     String subject;
+
+    @NotBlank(message = "Qualification is mandatory")
     String qualification;
+
+    @NotBlank(message = "Classroom ID is mandatory")
     Integer classRoomId;
     
     public MentorDTO(Integer mentorId, String firstName, String lastName, String address, String email, String title,

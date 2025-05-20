@@ -43,8 +43,7 @@ public class MentorServiceImpl implements MentorService {
     public List<MentorDTO> getMentors(List<String> address) {
         List<MentorEntity> mentorEntities = mentorRepository.findAll();
         return mentorEntities.stream()
-            .filter(mentor -> address == null || address.contains(mentor.getAddress()))
-            .map(MentorDTOMapper::map)
+            .map(mentorDTOs -> MentorDTOMapper.map(mentorDTOs))
             .toList();
     }
 

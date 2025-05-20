@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,11 +19,14 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.dto.StudentDTO;
 import com.example.demo.service.StudentService;
 
+import jakarta.validation.Valid;
+
 
 
 
 @RestController
 @RequestMapping("/student")
+@Validated
 public class StudentController {
     @Autowired
     StudentService studentService;
@@ -31,7 +35,7 @@ public class StudentController {
 
 
     @PostMapping
-    public ResponseEntity<StudentDTO> createStudent(@RequestBody StudentDTO studentDTO) {
+    public ResponseEntity<StudentDTO> createStudent(@RequestBody @Valid StudentDTO studentDTO) {
         StudentDTO studentDTOs =studentService.createStudent(studentDTO);
         return new ResponseEntity<>(studentDTOs,HttpStatus.OK);
 

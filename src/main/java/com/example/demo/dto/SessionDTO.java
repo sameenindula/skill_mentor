@@ -1,12 +1,30 @@
 package com.example.demo.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+import jakarta.validation.constraints.NotBlank;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class SessionDTO {
+
     private Integer sessionId;
+
+    @NotBlank(message = "Session name is mandatory")
     private String sessionName;
+
+    @NotBlank(message = "Start date is mandatory")
     private Integer startDate;
+
+    @NotBlank(message = "End date is mandatory")
     private Integer endDate;
+
+    @NotBlank(message = "Mentor is mandatory")
     private MentorDTO mentor;
+
+    @NotBlank(message = "Student is mandatory")
     private StudentDTO student;
+
+    @NotBlank(message = "Classroom is mandatory")
     private ClassRoomDTO classRoom;
 
     // No-argument constructor

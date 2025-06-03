@@ -6,6 +6,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.dto.AuditDTO;
+import com.example.demo.dto.PaymentDTO;
 import com.example.demo.dto.SessionDTO;
 import com.example.demo.entity.ClassRoomEntity;
 import com.example.demo.entity.MentorEntity;
@@ -87,6 +89,28 @@ public class SessionServiesImpl implements SessionService {
         } else {
             return null;
         }
+    }
+
+    @Override
+    public List<AuditDTO> getAllAudits() {
+        List<SessionEntity> sessions = sessionRepository.findAll();
+        return sessions.stream()
+                .map(com.example.demo.mapper.AduitDTOMapper::map)
+                .toList();
+    }
+
+    @Override
+    public List<PaymentDTO> findMentorPayments(String startDate, String endDate) {
+        List<Object[]> list = sessionRepository.findMentorPayments(startDate, endDate);
+        if (list != null && !list.isEmpty()) {
+            return list.stream().map(row -> {
+                Integer mentorId = (Integer) row[0];
+                String mentorName = (String) row[1];
+                Double totalFee = (Double) row[2];
+                return new PaymentDTO(mentorId, mentorName, totalFee);
+            }).toList();
+        }
+        return null;
     }
     
 }

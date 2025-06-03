@@ -23,7 +23,6 @@ import jakarta.validation.Valid;
 
 
 @Validated
-
 @RestController
 @RequestMapping("/mentor")
 public class MentorController {
@@ -37,7 +36,7 @@ public class MentorController {
 
     @GetMapping()
     public ResponseEntity<List<MentorDTO>> getAllMentors(@RequestParam (required=false) List<String> address){
-        return new ResponseEntity<>(mentorService.getMentors(address),HttpStatus.OK);
+            return new ResponseEntity<>(mentorService.getMentors(address),HttpStatus.OK);
     }
 
     @GetMapping("/{id}")

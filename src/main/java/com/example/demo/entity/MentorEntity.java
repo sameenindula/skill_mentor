@@ -50,10 +50,15 @@ public class MentorEntity {
     @OneToMany(mappedBy = "mentor")
     private  List<SessionEntity> sessions;
 
+    @Column(name = "sessionFee")
+    private Double sessionFee;
+
+    
+
  
 
     public MentorEntity(Integer mentorId, String firstName, String lastName, String address, String email, String title,
-            String profession, String subject, String qualification, ClassRoomEntity classroom, List<SessionEntity> sessions) {
+            String profession, String subject, String qualification, ClassRoomEntity classroom, List<SessionEntity> sessions,Double sessionFee) {
         this.mentorId = mentorId;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -64,6 +69,8 @@ public class MentorEntity {
         this.subject = subject;
         this.qualification = qualification;
         this.classroom = classroom;
+        this.sessions = sessions;
+        this.sessionFee = sessionFee;
     }  
 
     public MentorEntity() {
@@ -157,5 +164,12 @@ public class MentorEntity {
     public void setSessions(List<SessionEntity> sessions) {
         this.sessions = sessions;
     }
+    public Double getSessionFee() {
+        return sessionFee;
+    }
+    public void setSessionFee(Double sessionFee) {
+        this.sessionFee = sessionFee;
+    }
+
 
 }

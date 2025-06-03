@@ -5,7 +5,12 @@ import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.example.demo.dto.MentorDTO;
 import com.example.demo.entity.ClassRoomEntity;
@@ -15,8 +20,12 @@ import com.example.demo.repository.ClassRoomRepository;
 import com.example.demo.repository.MentorRepository;
 import com.example.demo.service.MentorService;
 
+import org.springframework.transaction.annotation.Transactional;
+
+
 @Service
 public class MentorServiceImpl implements MentorService {
+    private static final Logger log = LoggerFactory.getLogger(MentorServiceImpl.class);
     
     @Autowired
     private MentorRepository mentorRepository;
@@ -25,10 +34,14 @@ public class MentorServiceImpl implements MentorService {
     private ClassRoomRepository classRoomRepository;
 
     @Override
+    @CacheEvict(value = {"mentorCache","allmentorCache"}, allEntries = true)
+    @Transactional(rollbackFor = Exception.class)
     public MentorDTO createMentor(MentorDTO mentorDTO) {
+        log.info("MentorServiceImpl.createMentor() called with MentorDTO: {}", mentorDTO);
         MentorEntity mentorEntity = MentorDTOMapper.map(mentorDTO);
         MentorEntity savedEntity = mentorRepository.save(mentorEntity);
         if (!Objects.isNull(mentorDTO.getClassRoomId())){
+            log.error("MentorServiceImpl.createMentor() called with MentorDTO: {}", mentorDTO);
             Optional<ClassRoomEntity> optionalClassRoomEntity = classRoomRepository.findById(mentorDTO.getClassRoomId());
             if (optionalClassRoomEntity.isPresent()){
                 ClassRoomEntity classRoomEntity = optionalClassRoomEntity.get();
@@ -40,7 +53,10 @@ public class MentorServiceImpl implements MentorService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
+    @Cacheable(value = "mentorCache", key = "#address")
     public List<MentorDTO> getMentors(List<String> address) {
+        log.info("MentorServiceImpl.getMentors() called with address: {}", address);
         List<MentorEntity> mentorEntities = mentorRepository.findAll();
         return mentorEntities.stream()
             .map(mentorDTOs -> MentorDTOMapper.map(mentorDTOs))
@@ -48,12 +64,17 @@ public class MentorServiceImpl implements MentorService {
     }
 
     @Override
+    @Cacheable(value = "allmentorCache",key= "'allMentors'")
+    @Transactional(rollbackFor = Exception.class)
     public MentorDTO findById(Integer id) {
         MentorEntity mentorEntity = mentorRepository.findById(id).orElse(null);
         return MentorDTOMapper.map(mentorEntity);
     }
 
     @Override
+    @CachePut(value = "mentorCache", key = "#mentorupdate")
+    @CacheEvict(value = "allmentorCache", allEntries = true)
+    @Transactional(rollbackFor = Exception.class)
     public MentorDTO updateMentor(MentorDTO mentorDTO) {
         MentorEntity mentorEntity = mentorRepository.findById(mentorDTO.getMentorId()).orElse(null);
         if (mentorEntity != null) {
@@ -72,6 +93,8 @@ public class MentorServiceImpl implements MentorService {
     }
 
     @Override
+    @CacheEvict(value = {"mentorCache","allmentorCache"}, allEntries = true)
+    @Transactional(rollbackFor = Exception.class)
     public MentorDTO deleteMentor(Integer id) {
         MentorEntity mentorEntity = mentorRepository.findById(id).orElse(null);
         MentorDTO mentorDTO = MentorDTOMapper.map(mentorEntity);

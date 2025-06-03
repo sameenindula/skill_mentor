@@ -23,11 +23,12 @@ import jakarta.validation.Valid;
 
 
 
-
 @RestController
 @RequestMapping("/student")
 @Validated
 public class StudentController {
+    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(StudentController.class);
+
     @Autowired
     StudentService studentService;
 
@@ -36,6 +37,7 @@ public class StudentController {
 
     @PostMapping
     public ResponseEntity<StudentDTO> createStudent(@RequestBody @Valid StudentDTO studentDTO) {
+        log.info("Creating student with details: {}", studentDTO);
         StudentDTO studentDTOs =studentService.createStudent(studentDTO);
         return new ResponseEntity<>(studentDTOs,HttpStatus.OK);
 

@@ -28,14 +28,20 @@ public class MentorDTO {
     @NotBlank(message = "Subject is mandatory")
     String subject;
 
+    @NotBlank(message = "Subject is mandatory")
+    String phoneNumber;
+
     @NotBlank(message = "Qualification is mandatory")
     String qualification;
 
     @NotBlank(message = "Classroom ID is mandatory")
     Integer classRoomId;
+
+    @NotBlank(message = "Session fee is mandatory")
+    private Double sessionFee;
     
     public MentorDTO(Integer mentorId, String firstName, String lastName, String address, String email, String title,
-    String profession, String subject, String qualification, Integer classRoomId) {
+    String profession, String subject,String phoneNumber, String qualification, Integer classRoomId,Double sessionFee) {
     this.mentorId = mentorId;
     this.firstName = firstName;
     this.lastName = lastName;
@@ -46,6 +52,8 @@ public class MentorDTO {
     this.subject = subject;
     this.qualification = qualification;
     this.classRoomId = classRoomId;
+    this.phoneNumber = phoneNumber;
+    this.sessionFee = sessionFee;
     }
 
     public MentorDTO() {
@@ -130,6 +138,18 @@ public class MentorDTO {
 
     public void setClassRoomId(Integer classRoomId) {
         this.classRoomId = classRoomId;
+    }
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+    public Double getSessionFee() {
+        return sessionFee;
+    }
+    public void setSessionFee(Double sessionFee) {
+        this.sessionFee = sessionFee;
     }
     
 

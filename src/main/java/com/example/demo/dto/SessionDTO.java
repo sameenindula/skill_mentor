@@ -1,6 +1,10 @@
 package com.example.demo.dto;
 
+import java.time.Instant;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
+
+import org.apache.logging.log4j.CloseableThreadContext.Instance;
 
 import jakarta.validation.constraints.NotBlank;
 
@@ -9,14 +13,17 @@ public class SessionDTO {
 
     private Integer sessionId;
 
+    @NotBlank(message = "Topic is mandatory")
+    private String topic;
+
     @NotBlank(message = "Session name is mandatory")
     private String sessionName;
 
     @NotBlank(message = "Start date is mandatory")
-    private Integer startDate;
+    private Instant startDate;
 
     @NotBlank(message = "End date is mandatory")
-    private Integer endDate;
+    private Instant endDate;
 
     @NotBlank(message = "Mentor is mandatory")
     private MentorDTO mentor;
@@ -32,11 +39,13 @@ public class SessionDTO {
     }
 
     // Constructor with arguments
-    public SessionDTO(Integer sessionId, String sessionName, Integer startDate, Integer endDate, MentorDTO mentor, StudentDTO student, ClassRoomDTO classRoom) {
+    public SessionDTO(String topic,Integer sessionId, String sessionName, Instant startDate, Instant endDate, MentorDTO mentor, StudentDTO student, ClassRoomDTO classRoom) {
         this.sessionId = sessionId;
         this.sessionName = sessionName;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.mentor = mentor;
+        this.student = student;
     }
 
     // Getters and setters
@@ -56,21 +65,19 @@ public class SessionDTO {
         this.sessionName = sessionName;
     }
 
-    public Integer getStartDate() {
+    public Instant getStartDate() {
         return startDate;
     }
-
-    public void setStartDate(Integer startDate) {
+    public void setStartDate(Instant startDate) {
         this.startDate = startDate;
     }
-
-    public Integer getEndDate() {
+    public Instant getEndDate() {
         return endDate;
     }
-
-    public void setEndDate(Integer endDate) {
+    public void setEndDate(Instant endDate) {
         this.endDate = endDate;
     }
+    
     public MentorDTO getMentor() {
         return mentor;
     }
@@ -88,6 +95,12 @@ public class SessionDTO {
     }
     public void setClassRoom(ClassRoomDTO classRoom) {
         this.classRoom = classRoom;
+    }
+    public String getTopic() {
+        return topic;
+    }
+    public void setTopic(String topic) {
+        this.topic = topic;
     }
 }
 

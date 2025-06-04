@@ -12,6 +12,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 
 @Entity
@@ -22,13 +24,13 @@ public class ClassRoomEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer classRoomId;
 
-    @Column(name = "title")
+    @Column(name = "title",nullable=false)
+    @NotBlank(message = "title should not be blank")
     private String title;
 
-    @Column(name = "session_fee")
-    private Double sessionFee;
 
-    @Column(name = "enroll_student_count")
+    @Column(name = "enroll_student_count", nullable=false)
+    @jakarta.validation.constraints.NotNull(message = "enroll student count should not be null")
     private Integer enrollStudentCount;
 
     @OneToOne(fetch=FetchType.EAGER)
@@ -41,10 +43,9 @@ public class ClassRoomEntity {
 
     public ClassRoomEntity() {
     }
-    public ClassRoomEntity(Integer classRoomId, String title, Double sessionFee, Integer enrollStudentCount, MentorEntity mentor, List<SessionEntity> sessions) {
+    public ClassRoomEntity(Integer classRoomId, String title, Integer enrollStudentCount, MentorEntity mentor, List<SessionEntity> sessions) {
         this.classRoomId = classRoomId;
         this.title = title;
-        this.sessionFee = sessionFee;
         this.enrollStudentCount = enrollStudentCount;
         this.mentor = mentor;
     }
@@ -65,13 +66,6 @@ public class ClassRoomEntity {
         this.title = title;
     }
 
-    public Double getSessionFee() {
-        return sessionFee;
-    }
-
-    public void setSessionFee(Double sessionFee) {
-        this.sessionFee = sessionFee;
-    }
 
     public Integer getEnrollStudentCount() {
         return enrollStudentCount;

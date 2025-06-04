@@ -9,6 +9,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(name="students")
@@ -18,18 +20,24 @@ public class StudentEntity {
     private Integer id;
 
     @Column(name = "name")
+    @NotBlank(message = "name should not be blank")
     private String name;
 
     @Column(name = "email")
+    @Email(message = "email should be valid")
+    @NotBlank(message = "email should not be blank")
     private String email;
 
     @Column(name = "phone")
+    @NotBlank(message = "phone should not be blank")
     private String phone;
 
     @Column(name = "address")
+    @NotBlank(message = "address should not be blank")
     private String address;
 
     @Column(name = "city")
+    @NotBlank(message = "city should not be blank")
     private String city;
 
     @OneToMany(mappedBy = "student")

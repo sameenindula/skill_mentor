@@ -1,8 +1,17 @@
 package com.example.demo.dto;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
+
 public class PaymentDTO {
+    @NotNull(message = "mentor id should not be null")
     private Integer mentorId;
+
+    @NotBlank(message = "mentor name should not be blank")
     private String mentorName;
+
+    @NotNull(message = "total fee should not be null")
     private Double totalFee;
 
     public PaymentDTO() {

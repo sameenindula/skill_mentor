@@ -17,43 +17,45 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.dto.ClassRoomDTO;
 import com.example.demo.service.ClassRoomService;
+import com.example.demo.common.Constants;
+
 
 import jakarta.validation.Valid;
 
 @Validated
 
 @RestController
-@RequestMapping("/classRoom")
+@RequestMapping("/academic")
 public class ClassRoomController {
 
     @Autowired
     ClassRoomService classRoomService;
 
-    @GetMapping()
+    @GetMapping(value="/classRoom" ,produces=Constants.APPLICATION_JSON)
     public ResponseEntity<List<ClassRoomDTO>> getAllClass() {
         List<ClassRoomDTO> classRooms = classRoomService.getAllClass();
-        return new ResponseEntity<>(classRooms, HttpStatus.OK);
+        return ResponseEntity.ok(classRooms);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(value="/classroom/{id}", produces=Constants.APPLICATION_JSON)
     public ResponseEntity<ClassRoomDTO> findById(@PathVariable Integer id) {
         ClassRoomDTO classRoom = classRoomService.findById(id);
-        return new ResponseEntity<>(classRoom, HttpStatus.OK);
+        return ResponseEntity.ok(classRoom);
     }
 
-    @PostMapping()
-    public ResponseEntity<ClassRoomDTO> createClass(@RequestBody @Valid ClassRoomDTO classRoomDTO) {
-        ClassRoomDTO createdClass = classRoomService.createClass(classRoomDTO);
-        return new ResponseEntity<>(createdClass, HttpStatus.CREATED);
+    @PostMapping(value="/classroom",consumes=Constants.APPLICATION_JSON,produces=Constants.APPLICATION_JSON)
+    public ResponseEntity<ClassRoomDTO> createClass(@Valid @RequestBody  ClassRoomDTO classRoomDTO) {
+        final ClassRoomDTO createdClass = classRoomService.createClass(classRoomDTO);
+        return ResponseEntity.ok(createdClass);
     }
 
-    @PutMapping()
+    @PutMapping(value="/classroom", consumes=Constants.APPLICATION_JSON, produces=Constants.APPLICATION_JSON)
     public ResponseEntity<ClassRoomDTO> updateClass(@RequestBody ClassRoomDTO classRoomDTO) {
         ClassRoomDTO updatedClass = classRoomService.updateClass(classRoomDTO);
         return new ResponseEntity<>(updatedClass, HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping(value= "/classRoom/{id}, produces=Constants.APPLICATION_JSON)")
     public ResponseEntity<ClassRoomDTO> deleteClass(@PathVariable Integer id) {
         ClassRoomDTO deletedClass = classRoomService.deleteClass(id);
         return new ResponseEntity<>(deletedClass, HttpStatus.OK);

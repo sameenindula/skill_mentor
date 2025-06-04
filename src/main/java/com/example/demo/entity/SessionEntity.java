@@ -13,6 +13,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "session")
@@ -22,15 +24,19 @@ public class SessionEntity {
     private Integer sessionId;
 
     @Column(name = "session_name")
+    @NotBlank(message = "session name should not be blank")
     private String sessionName;
 
     @Column(name = "session_topic")
+    @NotBlank(message = "session topic should not be blank")
     private String sessionTopic;
 
     @Column(name = "start_date")
+    @NotNull(message = "start date should not be null")
     private Instant startDate;
     
     @Column(name = "end_date")
+    @NotNull(message = "end date should not be null")
     private Instant endDate;
 
     @ManyToOne(fetch=FetchType.EAGER)

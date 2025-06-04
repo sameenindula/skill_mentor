@@ -2,22 +2,60 @@ package com.example.demo.dto;
 
 import java.time.Instant;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 
 public class AuditDTO {
+    @NotNull
+    @NotNull(message="session id shoud not null")
     private Integer sessionId;
+
+    @NotNull
+    @NotNull(message="student id should not be null")
     private Integer studentId;
+
+    @NotBlank
+    @NotBlank(message="student first name should not be blank")
     private String studentFirstName;
+
+    @NotBlank
+    @NotBlank(message="student last name should not be blank")
     private String studentLastName;
+
+    @NotBlank
+    @NotBlank(message="student student email should not be blank")
     private String studentEmail;
+
+    @NotBlank
+    @NotBlank(message="student phone number should not be blank")
     private String studentPhoneNumber;
+
+    @NotBlank(message = "class title should not be blank")
     private String classTitle;
+
+    @NotNull(message = "mentor id should not be null")
     private Integer mentorId;
+
+    @NotBlank(message = "mentor first name should not be blank")
     private String mentorFirstName;
+
+    @NotBlank(message = "mentor last name should not be blank")
     private String mentorLastName;
+
+    @NotBlank(message = "mentor phone number should not be blank")
     private String mentorPhoneNumber;
+
+    @NotNull(message = "fee should not be null")
     private Double fee;
+
+    @NotNull(message = "start time should not be null")
     private Instant startTime;
+
+    @NotNull(message = "end time should not be null")
     private Instant endTime;
+
+    @NotBlank(message = "topic should not be blank")
     private String topic;
     public AuditDTO() {
     }

@@ -47,7 +47,6 @@ public class ClassRoomServiceImpl implements ClassRoomService{
         if (classRoomEntity2!=null) {
             classRoomEntity2.setClassRoomId(classRoomDTO.getClassRoomId());
         classRoomEntity2.setEnrollStudentCount(classRoomDTO.getEnrollStudentCount());
-        classRoomEntity2.setSessionFee(classRoomDTO.getSessionFee());
         classRoomEntity2.setTitle(classRoomDTO.getTitle());
         ClassRoomEntity classRoomEntity3=classRoomRepository.save(classRoomEntity2);
         return ClassRoomDTOMapper.map(classRoomEntity3);

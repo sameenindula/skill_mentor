@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.common.Constants;
 import com.example.demo.dto.SessionDTO;
 import com.example.demo.service.SessionService;
 
@@ -25,38 +26,38 @@ import jakarta.validation.Valid;
 
 
 @RestController
-@RequestMapping("/session")
+@RequestMapping("/academic")
 @Validated
 public class SessionController {
 
     @Autowired
     private SessionService sessionService;
 
-    @GetMapping()
+    @GetMapping(value="/session", produces = Constants.APPLICATION_JSON)
     public ResponseEntity<List<SessionDTO>> getAllSession() {
         return new ResponseEntity<>(sessionService.getSessions(), HttpStatus.OK);
     }
 
-    @PostMapping()
+    @PostMapping(value="/session", consumes = Constants.APPLICATION_JSON, produces = Constants.APPLICATION_JSON)
     public ResponseEntity<SessionDTO> createSession(@RequestBody @Valid SessionDTO sessionDTO) {
 
         SessionDTO sessionDTOs = sessionService.createSession(sessionDTO);
         return new ResponseEntity<>(sessionDTOs, HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(value="/session/{id}",produces=Constants.APPLICATION_JSON)
     public ResponseEntity<SessionDTO> findById(@PathVariable Integer id) {
         SessionDTO sessionDTOs = sessionService.findById(id);
         return new ResponseEntity<>(sessionDTOs, HttpStatus.OK);
     }
 
-    @PutMapping()
+    @PutMapping(value="/session", consumes = Constants.APPLICATION_JSON, produces = Constants.APPLICATION_JSON)
     public ResponseEntity<SessionDTO> updateSession(@RequestBody SessionDTO sessionDTO) {
         SessionDTO sessionDTOs = sessionService.updateSession(sessionDTO);
         return  new ResponseEntity<>(sessionDTOs, HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping(value="/session/{id}", consumes=Constants.APPLICATION_JSON)
     public ResponseEntity<SessionDTO> deleteSession(@PathVariable Integer id) {
         SessionDTO sessionDTOs = sessionService.deleteSession(id);
         return new ResponseEntity<>(sessionDTOs, HttpStatus.OK);

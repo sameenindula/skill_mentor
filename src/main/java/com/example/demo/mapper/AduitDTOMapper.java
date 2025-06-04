@@ -22,7 +22,6 @@ public class AduitDTOMapper {
         auditDTO.setMentorFirstName(sessionEntity.getMentor().getFirstName());
         auditDTO.setMentorLastName(sessionEntity.getMentor().getLastName());
         // Fee
-        auditDTO.setFee(sessionEntity.getClassroom().getSessionFee());
         // Times and topic
         auditDTO.setStartTime(sessionEntity.getStartDate());
         auditDTO.setEndTime(sessionEntity.getEndDate());

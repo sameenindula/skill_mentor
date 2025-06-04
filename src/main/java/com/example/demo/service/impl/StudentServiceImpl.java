@@ -2,7 +2,10 @@ package com.example.demo.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.dto.StudentDTO;
 import com.example.demo.entity.StudentEntity;
@@ -18,6 +21,8 @@ public class StudentServiceImpl implements StudentService {
 
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
+    @CacheEvict(value = {"studentCache", "allStudentsCache"}, allEntries = true)
     public StudentDTO createStudent(StudentDTO studentDTO) {
         final StudentEntity studentEntity=StudentDTOMapper.map(studentDTO);
         final StudentEntity savedEntity= studentRepository.save(studentEntity);
@@ -26,6 +31,8 @@ public class StudentServiceImpl implements StudentService {
 }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
+    @Cacheable(value = "allStudentsCache", key = "'allStudents'")
     public List<StudentDTO> getStudent(List<String> address) {
             final List<StudentEntity> studentEntities=studentRepository.findAll();
             return studentEntities
@@ -38,6 +45,8 @@ public class StudentServiceImpl implements StudentService {
     
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
+    @Cacheable(value = "studentCache", key = "#id")
     public StudentDTO findById(Integer id) {
         StudentEntity studentEntity = studentRepository.findById(id).orElse(null);
         return StudentDTOMapper.map(studentEntity);
@@ -45,6 +54,8 @@ public class StudentServiceImpl implements StudentService {
 
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
+    @CacheEvict(value = {"studentCache", "allStudentsCache"}, allEntries = true)
     public StudentDTO updateStudent(StudentDTO studentDTO) {
         StudentEntity studentEntity = studentRepository.findById(studentDTO.getId()).orElse(null);
         if (studentEntity!=null) {
@@ -64,6 +75,7 @@ public class StudentServiceImpl implements StudentService {
 
 
     @Override
+    @CacheEvict(value = {"studentCache", "allStudentsCache"}, allEntries = true)
     public StudentDTO deleteStudent(Integer id) {
         StudentEntity studentEntity = studentRepository.findById(id).orElse(null);
         StudentDTO studentDTOs= StudentDTOMapper.map(studentEntity);

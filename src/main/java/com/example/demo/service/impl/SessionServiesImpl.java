@@ -4,7 +4,10 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.dto.AuditDTO;
 import com.example.demo.dto.PaymentDTO;
@@ -38,6 +41,8 @@ public class SessionServiesImpl implements SessionService {
 
     // Implement the methods from the SessionService interface here
     @Override
+    @Transactional(rollbackFor = Exception.class)
+    @CacheEvict(value = {"sessionCache", "allSessionsCache"}, allEntries = true)
     public SessionDTO createSession(SessionDTO sessionDTO) {
         // Find related entities
         Optional<ClassRoomEntity> classRoomEntityOpt = classRoomRepository.findById(sessionDTO.getClassRoom().getClassRoomId());
@@ -54,6 +59,8 @@ public class SessionServiesImpl implements SessionService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
+    @Cacheable(value = "sessionCache", key = "'allSessions'")
     public List<SessionDTO> getSessions() {
         List<SessionEntity> sessionEntities = sessionRepository.findAll();
         return sessionEntities.stream()
@@ -61,12 +68,16 @@ public class SessionServiesImpl implements SessionService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
+    @Cacheable(value = "sessionCache", key = "#id")
     public SessionDTO findById(Integer id) {
         SessionEntity sessionEntity = sessionRepository.findById(id).orElse(null);
         return SessionDTOMapper.map(sessionEntity);
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
+    @CacheEvict(value = {"sessionCache", "allSessionsCache"}, allEntries = true)
     public SessionDTO updateSession(SessionDTO sessionDTO) {
         SessionEntity sessionEntity = sessionRepository.findById(sessionDTO.getSessionId()).orElse(null);
         if (sessionEntity != null) {
@@ -81,6 +92,8 @@ public class SessionServiesImpl implements SessionService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
+    @CacheEvict(value = {"sessionCache", "allSessionsCache"}, allEntries = true)
     public SessionDTO deleteSession(Integer id) {
         SessionEntity sessionEntity = sessionRepository.findById(id).orElse(null);
         if (sessionEntity != null) {
@@ -92,6 +105,8 @@ public class SessionServiesImpl implements SessionService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
+    @Cacheable(value = "auditCache", key = "'allAudits'")
     public List<AuditDTO> getAllAudits() {
         List<SessionEntity> sessions = sessionRepository.findAll();
         return sessions.stream()
@@ -100,6 +115,8 @@ public class SessionServiesImpl implements SessionService {
     }
 
     @Override
+    @CacheEvict(value = "auditCache", allEntries = true)
+    @Transactional(rollbackFor = Exception.class)
     public List<PaymentDTO> findMentorPayments(String startDate, String endDate) {
         List<Object[]> list = sessionRepository.findMentorPayments(startDate, endDate);
         if (list != null && !list.isEmpty()) {

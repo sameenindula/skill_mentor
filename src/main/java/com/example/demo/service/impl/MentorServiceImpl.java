@@ -33,7 +33,7 @@ public class MentorServiceImpl implements MentorService {
     private ClassRoomRepository classRoomRepository;
 
     @Override
-    @CacheEvict(value = {"mentorCache","allmentorCache"}, allEntries = true)
+    // @CacheEvict(value = {"mentorCache","allmentorCache"}, allEntries = true)
     @Transactional(rollbackFor = Exception.class)
     public MentorDTO createMentor(MentorDTO mentorDTO) {
         log.info("MentorServiceImpl.createMentor() called with MentorDTO: {}", mentorDTO);
@@ -62,7 +62,7 @@ public class MentorServiceImpl implements MentorService {
     }
 
     @Override
-    @Cacheable(value = "allmentorCache",key= "'allMentors'")
+    // @Cacheable(value = "allmentorCache",key= "'allMentors'")
     @Transactional(rollbackFor = Exception.class)
     public MentorDTO findById(Integer id) {
         MentorEntity mentorEntity = mentorRepository.findById(id).orElse(null);
@@ -70,7 +70,7 @@ public class MentorServiceImpl implements MentorService {
     }
 
     @Override
-    @CachePut(value = "mentorCache", key = "#mentorupdate")
+    // @CachePut(value = "mentorCache", key = "#mentorupdate")
     @CacheEvict(value = "allmentorCache", allEntries = true)
     @Transactional(rollbackFor = Exception.class)
     public MentorDTO updateMentor(MentorDTO mentorDTO) {
@@ -91,7 +91,7 @@ public class MentorServiceImpl implements MentorService {
     }
 
     @Override
-    @CacheEvict(value = {"mentorCache","allmentorCache"}, allEntries = true)
+    // @CacheEvict(value = {"mentorCache","allmentorCache"}, allEntries = true)
     @Transactional(rollbackFor = Exception.class)
     public MentorDTO deleteMentor(Integer id) {
         MentorEntity mentorEntity = mentorRepository.findById(id).orElse(null);

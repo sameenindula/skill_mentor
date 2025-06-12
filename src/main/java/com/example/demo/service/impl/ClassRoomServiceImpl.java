@@ -22,7 +22,7 @@ public class ClassRoomServiceImpl implements ClassRoomService{
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    @CacheEvict(value = "classRoomCache", key = "#classRoomDTO.classRoomId")
+    // @CacheEvict(value = "classRoomCache", key = "#classRoomDTO.classRoomId")
     public ClassRoomDTO createClass(ClassRoomDTO classRoomDTO) {
         ClassRoomEntity classRoomEntity = ClassRoomDTOMapper.map(classRoomDTO);
         ClassRoomEntity saveClassRoom=classRoomRepository.save(classRoomEntity);
@@ -31,7 +31,7 @@ public class ClassRoomServiceImpl implements ClassRoomService{
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    @Cacheable(value = "classRoomCache", key = "#id")
+    // @Cacheable(value = "classRoomCache", key = "#id")
     public List<ClassRoomDTO> getAllClass() {
         List<ClassRoomEntity> classRoomEntity=classRoomRepository.findAll();
         List<ClassRoomDTO> classRoomDTOs=classRoomEntity
@@ -49,7 +49,7 @@ public class ClassRoomServiceImpl implements ClassRoomService{
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    @CacheEvict(value = "classRoomCache", key = "#classRoomDTO.classRoomId")
+    // @CacheEvict(value = "classRoomCache", key = "#classRoomDTO.classRoomId")
     public ClassRoomDTO updateClass(ClassRoomDTO classRoomDTO) {
 
         ClassRoomEntity classRoomEntity2=classRoomRepository.findById(classRoomDTO.getClassRoomId()).orElse(null);
@@ -67,7 +67,7 @@ public class ClassRoomServiceImpl implements ClassRoomService{
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    @CacheEvict(value = "classRoomCache", key = "#id")
+    // @CacheEvict(value = "classRoomCache", key = "#id")
     public ClassRoomDTO deleteClass(Integer id) {
         ClassRoomEntity classRoomEntity2=classRoomRepository.findById(id).orElse(null);
         ClassRoomDTO classRoomDTO=ClassRoomDTOMapper.map(classRoomEntity2);
@@ -77,7 +77,7 @@ public class ClassRoomServiceImpl implements ClassRoomService{
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    @Cacheable(value = "classRoomCache", key = "#id")
+    // @Cacheable(value = "classRoomCache", key = "#id")
     public ClassRoomDTO findById(Integer id) {
         ClassRoomEntity classRoomEntity2=classRoomRepository.findById(id).orElse(null);
         return ClassRoomDTOMapper.map(classRoomEntity2);

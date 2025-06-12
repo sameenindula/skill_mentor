@@ -4,13 +4,14 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.dto.MentorDTO;
 import com.example.demo.entity.ClassRoomEntity;
@@ -19,8 +20,6 @@ import com.example.demo.mapper.MentorDTOMapper;
 import com.example.demo.repository.ClassRoomRepository;
 import com.example.demo.repository.MentorRepository;
 import com.example.demo.service.MentorService;
-
-import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
@@ -54,7 +53,6 @@ public class MentorServiceImpl implements MentorService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    @Cacheable(value = "mentorCache", key = "#address")
     public List<MentorDTO> getMentors(List<String> address) {
         log.info("MentorServiceImpl.getMentors() called with address: {}", address);
         List<MentorEntity> mentorEntities = mentorRepository.findAll();

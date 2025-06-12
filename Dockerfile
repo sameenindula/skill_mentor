@@ -1,27 +1,30 @@
-# Use Maven to build the application
-FROM maven:3.8.5-openjdk-17 AS builder
+# Stage 1: Build the application
+FROM maven:3.8.6-openjdk-18 AS build
 
-# Set working directory inside the container
+# Set the working directory inside the container
 WORKDIR /app
 
-# Copy the Maven project files
-COPY pom.xml ./
+# Copy the Maven project files into the container
+COPY pom.xml .
 COPY src ./src
 
-# Package the application
+# Build the application
 RUN mvn clean package -DskipTests
-
-# Use a lightweight JDK base image to run the app
+# Stage 2: Create the runtime image
 FROM openjdk:17-jdk-slim
 
-# Set working directory inside the container
+# Set the working directory inside the container
 WORKDIR /app
 
-# Copy the built jar file from the builder stage
-COPY --from=builder /app/target/*.jar app.jar
+# Copy the JAR file from the build stage
+COPY --from=build /app/target/skill-mentor-root-0.0.1-SNAPSHOT.jar app.jar
 
-# Expose the application's port
-EXPOSE 8081
+# Expose the port the application runs on
+EXPOSE 8080
 
 # Command to run the application
+
 ENTRYPOINT ["java", "-jar", "app.jar"]
+
+
+

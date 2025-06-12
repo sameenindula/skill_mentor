@@ -1,12 +1,15 @@
 package com.example.demo.service.impl;
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import com.example.demo.dao.StudentDao;
 import com.example.demo.dto.StudentDTO;
+import com.example.demo.entity.StudentEntity;
+import com.example.demo.mapper.StudentDTOMapper;
 import com.example.demo.repository.StudentRepository;
 import com.example.demo.service.StudentService;
 @Service
@@ -14,40 +17,70 @@ public class StudentServiceImpl implements StudentService {
     @Autowired
     private StudentRepository studentRepository;
 
-    @Autowired
-    private StudentDao studentDao;
+
 
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
+    @CacheEvict(value = {"studentCache", "allStudentsCache"}, allEntries = true)
     public StudentDTO createStudent(StudentDTO studentDTO) {
-        StudentDTO studentDTOs=studentDao.createStudent(studentDTO);
-        return studentDTOs;
+        final StudentEntity studentEntity=StudentDTOMapper.map(studentDTO);
+        final StudentEntity savedEntity= studentRepository.save(studentEntity);
+        return StudentDTOMapper.map(savedEntity);
     
 }
 
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    @Cacheable(value = "allStudentsCache", key = "'allStudents'")
+    public List<StudentDTO> getStudent(List<String> address) {
+            final List<StudentEntity> studentEntities=studentRepository.findAll();
+            return studentEntities
+            .stream()
+            .filter(student-> address==null || address.contains(student.getAddress()))
+            .map(StudentDTOMapper::map)
+            .toList();
+            }
+
+    
 
     @Override
-    public List<StudentDTO> getStudent() {
-        return studentDao.getStudent();
+    @Transactional(rollbackFor = Exception.class)
+    @Cacheable(value = "studentCache", key = "#id")
+    public StudentDTO findById(Integer id) {
+        StudentEntity studentEntity = studentRepository.findById(id).orElse(null);
+        return StudentDTOMapper.map(studentEntity);
     }
 
 
-    // @Override
-    // public StudentDTO findById(Integer id) {
-    //     return studentRepository.findById(id);
-    // }
-
-
-    // @Override
-    // public StudentDTO updateStudent(Integer id, StudentDTO studentDTO) {
-    //     return studentRepository.updateStudent(id,studentDTO);
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    @CacheEvict(value = {"studentCache", "allStudentsCache"}, allEntries = true)
+    public StudentDTO updateStudent(StudentDTO studentDTO) {
+        StudentEntity studentEntity = studentRepository.findById(studentDTO.getId()).orElse(null);
+        if (studentEntity!=null) {
+            studentEntity.setName(studentDTO.getName());
+            studentEntity.setAddress(studentDTO.getAddress());
+            studentEntity.setEmail(studentDTO.getEmail());
+            studentEntity.setPhone(studentDTO.getPhone());
+            studentEntity.setCity(studentDTO.getCity());
+            StudentEntity savedEntity = studentRepository.save(studentEntity);
+            return StudentDTOMapper.map(savedEntity);
+            
+        }else{
+            return null;
+        }
         
-    // }
+    }
 
 
-    // @Override
-    // public StudentDTO deleteStudent(Integer id) {
-    //     return studentRepository.deleteStudent(id);
-    // }
+    @Override
+    @CacheEvict(value = {"studentCache", "allStudentsCache"}, allEntries = true)
+    public StudentDTO deleteStudent(Integer id) {
+        StudentEntity studentEntity = studentRepository.findById(id).orElse(null);
+        StudentDTO studentDTOs= StudentDTOMapper.map(studentEntity);
+        studentRepository.deleteById(id);
+        return studentDTOs;
+    }
 }
 

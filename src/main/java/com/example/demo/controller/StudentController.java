@@ -5,68 +5,54 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
-import com.example.demo.dao.StudentDao;
+import com.example.demo.common.Constants;
 import com.example.demo.dto.StudentDTO;
 import com.example.demo.service.StudentService;
 
-
-
+import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/student")
+@RequestMapping("/acadamic")
+@Validated
 public class StudentController {
-    @Autowired
-    StudentService studentService;
+
+    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(StudentController.class);
 
     @Autowired
-    StudentDao studentDao;
+    private StudentService studentService;
 
-
-
-    // @GetMapping
-    // public ResponseEntity<List<StudentDTO>> getStudent(@RequestParam(required = false) String name){
-    //     List<StudentDTO> allStudents=studentService.getStudent(name);
-    //     return new ResponseEntity<>(allStudents,HttpStatus.OK);
-    // }
-
-
-
-
-    @PostMapping
-    public ResponseEntity<StudentDTO> createStudent(@RequestBody StudentDTO studentDTO) {
-        studentService.createStudent(studentDTO);
-        return new ResponseEntity<>(studentDTO,HttpStatus.OK);
-
+    @PostMapping(value = "/student", produces = Constants.APPLICATION_JSON, consumes = Constants.APPLICATION_JSON)
+    public ResponseEntity<StudentDTO> createStudent(@RequestBody @Valid StudentDTO studentDTO) {
+        log.info("Creating student with details: {}", studentDTO);
+        StudentDTO savedStudent = studentService.createStudent(studentDTO);
+        return ResponseEntity.ok(savedStudent);
     }
 
-    @GetMapping()
-    public ResponseEntity<List<StudentDTO>> findById(){
-        List<StudentDTO> students = studentDao.getStudent();
-        return new ResponseEntity<>(students, HttpStatus.OK);
+    @GetMapping(value = "/student", produces = Constants.APPLICATION_JSON)
+    public ResponseEntity<List<StudentDTO>> getStudent(@RequestParam(required = false) List<String> address) {
+        List<StudentDTO> students = studentService.getStudent(address);
+        return ResponseEntity.ok(students);
     }
-    
-    // @PutMapping("/{id}")
-    // public ResponseEntity<StudentDTO> updateStudent(@PathVariable Integer id, @RequestBody StudentDTO studentDTO) {
-    //     StudentDTO studentDTOs= studentService.updateStudent(id,studentDTO);
-    //     return new ResponseEntity<>(studentDTOs,HttpStatus.OK);
-    // }
-    
-    // @DeleteMapping("/{id}")
-    // public ResponseEntity<StudentDTO> deleteStudent(@PathVariable Integer id){
-    //     StudentDTO studentDTOs=studentService.deleteStudent(id);
-    //     return new ResponseEntity<>(studentDTOs,HttpStatus.OK);
-    // }
-    
-    // @PutMapping("{id}")
-    // public ResponseEntity<StudentDTO> updateStudent(@PathVariable Integer id, @RequestBody StudentDTO studentDTO ){
-    //     StudentDTO studentDTOs=studentService.updateStudent(id, studentDTO);
-    //     return new ResponseEntity<>(studentDTOs,HttpStatus.OK);
-    // }
-    
+
+    @GetMapping(value = "/student/{id}", produces = Constants.APPLICATION_JSON)
+    public ResponseEntity<StudentDTO> findById(@PathVariable Integer id) {
+        StudentDTO student = studentService.findById(id);
+        return ResponseEntity.ok(student);
+    }
+
+    @PutMapping(value = "/student", produces = Constants.APPLICATION_JSON, consumes = Constants.APPLICATION_JSON)
+    public ResponseEntity<StudentDTO> updateStudent(@RequestBody @Valid StudentDTO studentDTO) {
+        StudentDTO updatedStudent = studentService.updateStudent(studentDTO);
+        return ResponseEntity.ok(updatedStudent);
+    }
+
+    @DeleteMapping(value = "/student/{id}", produces = Constants.APPLICATION_JSON)
+    public ResponseEntity<StudentDTO> deleteStudent(@PathVariable Integer id) {
+        StudentDTO deletedStudent = studentService.deleteStudent(id);
+        return ResponseEntity.ok(deletedStudent);
+    }
+
 }
